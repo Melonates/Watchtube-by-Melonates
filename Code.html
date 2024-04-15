@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interface by Melonates</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #1b1b1b;
+    color: #ffffff;
+  }
+  .header {
+    background-color: #242424;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .sidebar {
+    background-color: #272727;
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 60px;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+  }
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  .sidebar li {
+    padding: 10px;
+    text-align: center;
+  }
+  .sidebar li:hover {
+    background-color: #383838;
+    cursor: pointer;
+  }
+  .content {
+    margin-left: 260px;
+    padding: 20px;
+  }
+  .youtube-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .video {
+    display: inline-block;
+    width: 300px;
+    margin: 20px;
+    background-color: #222222;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+  }
+  .video:hover {
+    transform: translateY(-5px);
+  }
+  .video img {
+    width: 100%;
+    height: auto;
+  }
+  .video-title {
+    font-size: 16px;
+    margin: 10px 0;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .input {
+    padding: 10px;
+    width: 240px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #000000;
+    outline: none;
+    transition: width 0.3s ease-in-out;
+  }
+  .input:focus {
+    width: 320px;
+  }
+  .search-icon {
+    color: #666;
+    font-size: 20px;
+    position: relative;
+    left: -30px;
+    top: 3px;
+    cursor: pointer;
+  }
+  .sidebar-box {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ff4444; /* Rot */
+    border-radius: 8px;
+    text-align: center;
+  }
+  .sidebar-box a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  .sidebar-box:hover {
+    background-color: #ff6666; /* Helleres Rot beim Hover */
+  }
+  .sidebar-box:last-child {
+    background-color: #9b30ff; /* Lila */
+  }
+  .weather-box {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #00235f; /* Grau */
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+  }
+  .weather-box:hover {
+    background-color: #0C66E4; /* Blau beim Hover */
+  }
+  .weather-box h3 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .weather-box svg {
+    width: 100%;
+    height: auto;
+  }
+  .weather-box p {
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  .weather-box .weather-info {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .weather-box:hover .weather-info {
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div id="cover">
+    <form name="search" onsubmit="event.preventDefault(); searchYoutube();">
+      <div class="tb">
+        <div class="td"><input type="text" class="input" name="txt" placeholder="Suche nach YouTube Videos" required></div>
+        <div class="td" id="s-cover">
+          <button type="submit">
+            <div id="s-circle"></div>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="sidebar">
+  <div class="sidebar-box">
+    <a href="https://www.youtube.com/channel/UCeSHZb0a4b7k3Fnh9TnRb6A" target="_blank">Creators Youtube</a>
+  </div>
+  <div class="sidebar-box">
+    <a href="https://www.twitch.tv/melonates" target="_blank">Creators Twitch</a>
+  </div>
+  <div class="weather-box">
+    <h3>Today</h3>
+    <div class="gap-4 relative">
+      <svg
+        viewBox="0 0 64 64"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-20 scale-[110%]"
+      >
+        <defs>
+          <linearGradient
+            gradientUnits="userSpaceOnUse"
+            y2="28.33"
+            y1="19.67"
+            x2="21.5"
+            x1="16.5"
+            id="b"
+          >
+            <stop stop-color="#fbbf24" offset="0"></stop>
+            <stop stop-color="#fbbf24" offset=".45"></stop>
+            <stop stop-color="#f59e0b" offset="1"></stop>
+          </linearGradient>
+          <linearGradient
+            gradientUnits="userSpaceOnUse"
+            y2="50.8"
+            y1="21.96"
+            x2="39.2"
+            x1="22.56"
+            id="c"
+          >
+            <stop stop-color="#f3f7fe" offset="0"></stop>
+            <stop stop-color="#f3f7fe" offset=".45"></stop>
+            <stop stop-color="#deeafb" offset="1"></stop>
+          </linearGradient>
+          <linearGradient
+            gradientUnits="userSpaceOnUse"
+            y2="48.05"
+            y1="42.95"
+            x2="25.47"
+            x1="22.53"
+            id="a"
+          >
+            <stop stop-color="#4286ee" offset="0"></stop>
+            <stop stop-color="#4286ee" offset=".45"></stop>
+            <stop stop-color="#0950bc" offset="1"></stop>
+          </linearGradient>
+          <linearGradient
+            xlink:href="#a"
+            y2="48.05"
+            y1="42.95"
+            x2="32.47"
+            x1="29.53"
+            id="d"
+          ></linearGradient>
+          <linearGradient
+            xlink:href="#a"
+            y2="48.05"
+            y1="42.95"
+            x2="39.47"
+            x1="36.53"
+            id="e"
+          ></linearGradient>
+        </defs>
+        <circle
+          stroke-width=".5"
+          stroke-miterlimit="10"
+          stroke="#f8af18"
+          fill="url(#b)"
+          r="5"
+          cy="24"
+          cx="19"
+        ></circle>
+        <path
+          d="M19 15.67V12.5m0 23v-3.17m5.89-14.22l2.24-2.24M10.87 32.13l2.24-2.24m0-11.78l-2.24-2.24m16.26 16.26l-2.24-2.24M7.5 24h3.17m19.83 0h-3.17"
+          stroke-width="2"
+          stroke-miterlimit="10"
+          stroke-linecap="round"
+          stroke="#fbbf24"
+          fill="none"
+        >
+          <animateTransform
+            values="0 19 24; 360 19 24"
+            type="rotate"
+            repeatCount="indefinite"
+            dur="45s"
+            attributeName="transform"
+          ></animateTransform>
+        </path>
+        <path
+          d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"
+          stroke-width=".5"
+          stroke-miterlimit="10"
+          stroke="#e6effc"
+          fill="url(#c)"
+        ></path>
+        <path
+          d="M24.39 43.03l-.78 4.94"
+          stroke-width="2"
+          stroke-miterlimit="10"
+          stroke-linecap="round"
+          stroke="url(#a)"
+          fill="none"
+        >
+          <animateTransform
+            values="1 -5; -2 10"
+            type="translate"
+            repeatCount="indefinite"
+            dur="0.7s"
+            attributeName="transform"
+          ></animateTransform>
+        </path>
+        <path
+          d="M31.39 43.03l-.78 4.94"
+          stroke-width="2"
+          stroke-miterlimit="10"
+          stroke-linecap="round"
+          stroke="url(#d)"
+          fill="none"
+        >
+          <animateTransform
+            values="1 -5; -2 10"
+            type="translate"
+            repeatCount="indefinite"
+            dur="0.7s"
+            begin="-0.4s"
+            attributeName="transform"
+          ></animateTransform>
+        </path>
+        <path
+          d="M38.39 43.03l-.78 4.94"
+          stroke-width="2"
+          stroke-miterlimit="10"
+          stroke-linecap="round"
+          stroke="url(#e)"
+          fill="none"
+        >
+          <animateTransform
+            values="1 -5; -2 10"
+            type="translate"
+            repeatCount="indefinite"
+            dur="0.7s"
+            begin="-0.2s"
+            attributeName="translate-x-8"
+          ></animateTransform>
+        </path>
+      </svg>
+      <h4
+        class="font-sans duration-300 absolute left-1/2 -translate-x-1/2 text-5xl text-center group-hover:translate-x-8 group-hover:-translate-y-16 group-hover:scale-150"
+      >
+        6°
+      </h4>
+    </div>
+    <div class="absolute duration-300 -left-32 mt-2 group-hover:left-10 weather-info">
+      <p class="text-sm">Heavy Raining</p>
+      <p class="text-sm">50% humidity</p>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="youtube-container" id="videos"></div>
+</div>
+
+<script>
+  function searchYoutube() {
+    var query = document.forms['search']['txt'].value;
+    var apiKey = 'AIzaSyAWFJqaq3xR3H3U1xEH94FdY48zQ49EjPk'; // API-Schlüssel einfügen
+    var url = 'https://www.googleapis.com/youtube/v3/search?key=' + apiKey + '&type=video&part=snippet&q=' + encodeURIComponent(query) + '&maxResults=50'; // Maximal 50 Ergebnisse abrufen
+    
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        var videos = data.items;
+        var videoContainer = document.getElementById('videos');
+        videoContainer.innerHTML = '';
+
+        videos.forEach(video => {
+          var videoDiv = document.createElement('div');
+          videoDiv.classList.add('video');
+          videoDiv.innerHTML = `
+            <iframe width="300" height="200" src="https://www.youtube.com/embed/${video.id.videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="video-title">${video.snippet.title}</div>
+          `;
+          videoContainer.appendChild(videoDiv);
+        });
+      })
+      .catch(error => {
+        console.error('Fehler beim Abrufen der YouTube-Daten:', error);
+      });
+  }
+</script>
+
+</body>
+</html>
